@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Search</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px;
+        }
+
+        #searchBar {
+            width: 300px;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        #results {
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>File Search</h1>
+
+    <div id="searchBar">
+        <input type="text" id="searchInput" placeholder="Enter search terms...">
+        <button onclick="searchFiles()">Search</button>
+    </div>
+
+    <div id="results"></div>
+
+    <script>
+        function searchFiles() {
+            var searchInput = document.getElementById('searchInput').value;
+            var resultsContainer = document.getElementById('results');
+
+            // Perform an AJAX request to the Flask backend
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    // Display the results obtained from the Flask backend
+                    resultsContainer.innerHTML = xhr.responseText;
+                }
+            };
+            xhr.open("GET", "/search?query=" + searchInput, true);
+            xhr.send();
+        }
+    </script>
+</body>
+</html>
